@@ -6,8 +6,10 @@ import android.content.Intent;
 
 import com.hyphenate.superwechat.R;
 
+import cn.ucai.superwechat.ui.GuideActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
+import cn.ucai.superwechat.ui.SplashActivity;
 
 
 /**
@@ -34,6 +36,10 @@ public class MFGT {
     }
     public static void gotoRegister(Context context) {
         startActivity((Activity)context, RegisterActivity.class);
+    }
+
+    public static void gotoGide(SplashActivity activity) {
+        startActivity(activity, GuideActivity.class);
     }
 }
 

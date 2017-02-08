@@ -1,7 +1,7 @@
 package cn.ucai.superwechat.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hyphenate.superwechat.R;
@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.utils.MFGT;
 
-public class GuideActivity extends AppCompatActivity {
+public class GuideActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
