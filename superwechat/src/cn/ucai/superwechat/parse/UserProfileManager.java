@@ -171,8 +171,13 @@ public class UserProfileManager {
 					Result result = ResultUtils.getResultFromJson(s, User.class);
 					if (result != null && result.isRetMsg()) {
 						User user = (User) result.getRetData();
+						if (user != null) {
+
+
+						SuperWechatHelper.getInstance().saveAppContact(user);
 						setCurrentUserNick(user.getMUserNick());
-				//		setCurrentUserAvatar(value.getAvatar());
+						setCurrentUserAvatar(user.getAvatar());
+						}
 					}
 				}
 			}

@@ -27,7 +27,29 @@ import com.hyphenate.chat.EMMessage.Status;
 import com.hyphenate.chat.EMMessage.Type;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.controller.EaseUI.EaseEmojiconInfoProvider;
+import com.hyphenate.easeui.controller.EaseUI.EaseSettingsProvider;
+import com.hyphenate.easeui.controller.EaseUI.EaseUserProfileProvider;
+import com.hyphenate.easeui.domain.EaseEmojicon;
+import com.hyphenate.easeui.domain.EaseEmojiconGroupEntity;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
+import com.hyphenate.easeui.model.EaseAtMessageHelper;
+import com.hyphenate.easeui.model.EaseNotifier;
+import com.hyphenate.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.superwechat.R;
+import com.hyphenate.util.EMLog;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import cn.ucai.superwechat.db.DemoDBManager;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
@@ -42,26 +64,6 @@ import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.VideoCallActivity;
 import cn.ucai.superwechat.ui.VoiceCallActivity;
 import cn.ucai.superwechat.utils.PreferenceManager;
-import com.hyphenate.easeui.controller.EaseUI;
-import com.hyphenate.easeui.controller.EaseUI.EaseSettingsProvider;
-import com.hyphenate.easeui.controller.EaseUI.EaseUserProfileProvider;
-import com.hyphenate.easeui.controller.EaseUI.EaseEmojiconInfoProvider;
-import com.hyphenate.easeui.domain.EaseEmojicon;
-import com.hyphenate.easeui.domain.EaseEmojiconGroupEntity;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.model.EaseAtMessageHelper;
-import com.hyphenate.easeui.model.EaseNotifier;
-import com.hyphenate.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.EMLog;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class SuperWechatHelper {
     /**
@@ -86,7 +88,11 @@ public class SuperWechatHelper {
 
 	private Map<String, EaseUser> contactList;
 
-	private Map<String, RobotUser> robotList;
+
+
+    private Map<String, User> appContactList;
+
+    private Map<String, RobotUser> robotList;
 
 	private UserProfileManager userProManager;
 
@@ -896,15 +902,15 @@ public class SuperWechatHelper {
 	 * 
 	 * @param aContactList
 	 */
-	public void setContactList(Map<String, EaseUser> aContactList) {
+	public void setAppContactList(Map<String, User> aContactList) {
 		if(aContactList == null){
 		    if (contactList != null) {
 		        contactList.clear();
 		    }
 			return;
 		}
-		
-		contactList = aContactList;
+
+        appContactList = aContactList;
 	}
 	
 	/**
@@ -1275,7 +1281,7 @@ public class SuperWechatHelper {
 
         isGroupAndContactListenerRegisted = false;
         
-        setContactList(null);
+       setContactList(null);
         setRobotList(null);
         getUserProfileManager().reset();
         DemoDBManager.getInstance().closeDB();
@@ -1289,4 +1295,45 @@ public class SuperWechatHelper {
         easeUI.popActivity(activity);
     }
 
+    /**
+     * update contact list
+     *
+     * @param aContactList
+     */
+    public void setContactList(Map<String, User> aContactList) {
+        if(aContactList == null){
+            if (appContactList != null) {
+                appContactList.clear();
+            }
+            return;
+        }
+
+        appContactList = aContactList;
+    }
+
+    /**
+     * save single contact
+     */
+    public void saveAppContact(User user){
+        appContactList.put(user.getMUserName(), user);
+        demoModel.saveAppContact(user);
+    }
+
+    /**
+     * get contact list
+     *
+     * @return
+     */
+    public Map<String, User> getAppContactList() {
+        if (isLoggedIn() && appContactList == null) {
+            appContactList = demoModel.getAppContactList();
+        }
+
+        // return a empty non-null object to avoid app crash
+        if(contactList == null){
+            return new Hashtable<String, User>();
+        }
+
+        return appContactList;
+    }
 }
