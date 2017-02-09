@@ -1283,6 +1283,7 @@ public class SuperWechatHelper {
         
        setContactList(null);
         setRobotList(null);
+        setRobotList(null);
         getUserProfileManager().reset();
         DemoDBManager.getInstance().closeDB();
     }
@@ -1335,5 +1336,18 @@ public class SuperWechatHelper {
         }
 
         return appContactList;
+    }
+    /**
+     * update user list to cache and database
+     *
+     * @param contactInfoList
+     */
+    public void updateAppContactList(List<User> contactInfoList) {
+        for (User u : contactInfoList) {
+            appContactList.put(u.getMUserName(), u);
+        }
+        ArrayList<User> mList = new ArrayList<User>();
+        mList.addAll(appContactList.values());
+        demoModel.saveAppContactList(mList);
     }
 }
