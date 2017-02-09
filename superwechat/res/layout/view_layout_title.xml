@@ -21,7 +21,6 @@
         android:id="@+id/img_back"
         android:layout_width="40dp"
         android:layout_height="18dp" 
-
         android:layout_centerVertical="true"
         android:contentDescription="@string/app_name"
         android:src="@drawable/icon_back"
