@@ -78,7 +78,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustResize|stateVisible" />
-
+        <!--&lt;!&ndash; 设置 &ndash;&gt;-->
+        <!--<activity-->
+            <!--android:name="cn.ucai.superwechat.ui.S"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/horizontal_slide"-->
+            <!--android:windowSoftInputMode="adjustResize|stateVisible" />-->
         <!-- 注册 -->
         <activity
             android:name="cn.ucai.superwechat.ui.RegisterActivity"

@@ -265,10 +265,15 @@ public class SuperWechatHelper {
     protected void setEaseUIProviders() {
     	// set profile provider if you want easeUI to handle avatar and nickname
         easeUI.setUserProfileProvider(new EaseUserProfileProvider() {
-            
+
             @Override
             public EaseUser getUser(String username) {
                 return getUserInfo(username);
+            }
+
+            @Override
+            public User getAppUser(String username) {
+                return getAppUserInfo(username);
             }
         });
 
@@ -770,6 +775,23 @@ public class SuperWechatHelper {
         }
         return user;
 	}
+
+
+    private User getAppUserInfo(String username){
+        // To get instance of EaseUser, here we get it from the user list in memory
+        // You'd better cache it if you get it from your server
+        User user = null;
+
+        user = getAppContactList().get(username);
+
+
+        // if user is not in your contacts, set inital letter for him/her
+        if(user == null){
+            user = new User(username);
+            EaseCommonUtils.setAppUserInitialLetter(user);
+        }
+        return user;
+    }
 	
 	 /**
      * Global listener
