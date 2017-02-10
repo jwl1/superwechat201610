@@ -11,6 +11,7 @@ import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
 import cn.ucai.superwechat.ui.SettingsActivity;
 import cn.ucai.superwechat.ui.SplashActivity;
+import cn.ucai.superwechat.ui.UserProfileActivity;
 
 /**
  * Created by clawpo on 2017/1/10.
@@ -19,7 +20,7 @@ import cn.ucai.superwechat.ui.SplashActivity;
 public class MFGT {
     public static void finish(Activity activity){
         activity.finish();
-        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        activity.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
 
     public static void startActivity(Activity context, Class<?> clz){
@@ -36,6 +37,11 @@ public class MFGT {
         startActivity(activity, LoginActivity.class);
     }
 
+    public static void gotoLoginCleanTask(Activity activity){
+        startActivity(activity, new Intent(activity,LoginActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
     public static void gotoRegister(Activity activity){
         startActivity(activity, RegisterActivity.class);
     }
@@ -46,5 +52,9 @@ public class MFGT {
 
     public static void gotoSettings(FragmentActivity activity) {
         startActivity(activity, SettingsActivity.class);
+    }
+
+    public static void gotoUserProfile(Activity activity) {
+        startActivity(activity, UserProfileActivity.class);
     }
 }
