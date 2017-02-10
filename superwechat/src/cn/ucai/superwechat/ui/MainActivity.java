@@ -69,19 +69,19 @@ import cn.ucai.superwechat.widget.DMTabHost;
 import cn.ucai.superwechat.widget.MFViewPager;
 
 @SuppressLint("NewApi")
-public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedChangeListener,ViewPager.OnPageChangeListener{
+public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedChangeListener,ViewPager.OnPageChangeListener {
 
     protected static final String TAG = "MainActivity";
     @BindView(R.id.txt_left)
-    TextView txtLeft;
+    TextView mTxtLeft;
     @BindView(R.id.img_right)
-    ImageView imgRight;
+    ImageView mImgRight;
     @BindView(R.id.layout_viewpage)
-    MFViewPager layoutViewpage;
+    MFViewPager mLayoutViewpage;
     @BindView(R.id.layout_tabhost)
-    DMTabHost layoutTabhost;
+    DMTabHost mLayoutTabhost;
     // textview for unread message count
-//	private TextView unreadLabel;
+    //private TextView unreadLabel;
     // textview for unread event message
     //private TextView unreadAddressLable;
 
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     // user account was removed
     private boolean isCurrentAccountRemoved = false;
 
-    MainTabAdpter adpter;
+    MainTabAdpter adapter;
 
     /**
      * check if current user account was remove
@@ -108,7 +108,6 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         savePower();
-
         checkAccount(savedInstanceState);
 
         setContentView(R.layout.em_activity_main);
@@ -118,44 +117,34 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
         initView();
         initUment();
-
-
         showExceptionDialogFromIntent(getIntent());
 
         inviteMessgeDao = new InviteMessgeDao(this);
         UserDao userDao = new UserDao(this);
         initFragment();
 
-        //register broadcast receiver to receive the change of group from SuperWechatHelper
+        //register broadcast receiver to receive the change of group from DemoHelper
         registerBroadcastReceiver();
-
 
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         //debug purpose only
-
         registerInternalDebugReceiver();
-        String username = EMClient.getInstance().getCurrentUser();
-        //Map<String, User> map = SuperWechatHelper.getInstance().getAppContactList();
-        //L.e(TAG, "map=" + map.get(username));
     }
 
     private void initFragment() {
-
         conversationListFragment = new ConversationListFragment();
         contactListFragment = new ContactListFragment();
         ProfileFragment profileFragment = new ProfileFragment();
 
-
-
-        adpter = new MainTabAdpter(getSupportFragmentManager());
-        adpter.addFragment(conversationListFragment, "微信");
-        adpter.addFragment(contactListFragment, "通讯录");
-        adpter.addFragment(new DiscoverFragment(), "发现");
-        adpter.addFragment(profileFragment, "我");
-        layoutViewpage.setAdapter(adpter);
-        layoutTabhost.setChecked(0);
-        layoutTabhost.setOnCheckedChangeListener(this);
-        layoutViewpage.setOnPageChangeListener(this);
+        adapter = new MainTabAdpter(getSupportFragmentManager());
+        adapter.addFragment(conversationListFragment,"微信");
+        adapter.addFragment(contactListFragment,"通讯录");
+        adapter.addFragment(new DiscoverFragment(),"发现");
+        adapter.addFragment(profileFragment,"我");
+        mLayoutViewpage.setAdapter(adapter);
+        mLayoutTabhost.setChecked(0);
+        mLayoutTabhost.setOnCheckedChangeListener(this);
+        mLayoutViewpage.setOnPageChangeListener(this);
     }
 
     private void initUment() {
@@ -163,11 +152,9 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         MobclickAgent.updateOnlineConfig(this);
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
-
     }
 
     private void checkAccount(Bundle savedInstanceState) {
-
         //make sure activity will not in background if user is logged into another device or removed
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             SuperWechatHelper.getInstance().logout(false, null);
@@ -221,13 +208,15 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //		mTabs[2] = (Button) findViewById(R.id.btn_setting);
 //		// select first tab
 //		mTabs[0].setSelected(true);
+        mTxtLeft.setVisibility(View.VISIBLE);
+        mImgRight.setVisibility(View.VISIBLE);
     }
 
     /**
      * on tab clicked
      *
      * @param view
-    //	 */
+     */
 //	public void onTabClicked(View view) {
 //		switch (view.getId()) {
 //		case R.id.btn_conversation:
@@ -252,7 +241,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //		// set current tab selected
 //		mTabs[index].setSelected(true);
 //		currentTabIndex = index;
-    //}
+//	}
 
     EMMessageListener messageListener = new EMMessageListener() {
 
@@ -357,14 +346,13 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     }
 
     @Override
-    public void onPageScrolled(int i, float positionOffset, int positionOffsetPixels) {
+    public void onPageScrolled(int i, float v, int i1) {
 
     }
 
     @Override
     public void onPageSelected(int i) {
-       layoutViewpage.setCurrentItem(i);
-        layoutTabhost.setChecked(i);
+        mLayoutTabhost.setChecked(i);
     }
 
     @Override
@@ -374,8 +362,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @Override
     public void onCheckedChange(int checkedPosition, boolean byUser) {
-        layoutViewpage.setCurrentItem(checkedPosition,false);
-
+        mLayoutViewpage.setCurrentItem(checkedPosition,false);
     }
 
     public class MyContactListener implements EMContactListener {
