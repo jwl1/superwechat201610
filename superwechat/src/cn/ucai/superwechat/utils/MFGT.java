@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.superwechat.R;
 
 import cn.ucai.superwechat.ui.AddContactActivity;
@@ -61,5 +62,9 @@ public class MFGT {
 
     public static void gotoAddContact(Activity activity){
         startActivity(activity, AddContactActivity.class);
+    }
+
+    public static void gotoFirent(Activity activity, User user) {
+
     }
 }
