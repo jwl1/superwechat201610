@@ -1301,7 +1301,7 @@ public class SuperWechatHelper {
         setAppContactList(null);
         setRobotList(null);
         getUserProfileManager().reset();
-        DemoDBManager.getInstance().closeDB();
+      DemoDBManager.getInstance().closeDB();
     }
 
     public void pushActivity(Activity activity) {
