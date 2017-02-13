@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.hyphenate.superwechat.R;
 
+import cn.ucai.superwechat.ui.AddContactActivity;
 import cn.ucai.superwechat.ui.GuideActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
@@ -20,7 +21,7 @@ import cn.ucai.superwechat.ui.UserProfileActivity;
 public class MFGT {
     public static void finish(Activity activity){
         activity.finish();
-        activity.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     public static void startActivity(Activity context, Class<?> clz){
@@ -56,5 +57,9 @@ public class MFGT {
 
     public static void gotoUserProfile(Activity activity) {
         startActivity(activity, UserProfileActivity.class);
+    }
+
+    public static void gotoAddContact(Activity activity){
+        startActivity(activity, AddContactActivity.class);
     }
 }
