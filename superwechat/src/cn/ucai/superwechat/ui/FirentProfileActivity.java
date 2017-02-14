@@ -15,8 +15,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.SuperWechatHelper;
+import cn.ucai.superwechat.domain.Result;
+import cn.ucai.superwechat.net.NetDao;
+import cn.ucai.superwechat.net.OnCompleteListener;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 
 public class FirentProfileActivity extends BaseActivity {
     private static final String TAG = FirentProfileActivity.class.getSimpleName();
@@ -51,13 +55,43 @@ public class FirentProfileActivity extends BaseActivity {
         mImgBack.setVisibility(View.VISIBLE);
         mTxtTitle.setVisibility(View.VISIBLE);
         mTxtTitle.setText(R.string.userinfo_txt_profile);
-        user = (User) getIntent().getSerializableExtra(I.User.USER_NAME);
+        user = (User) getIntent().getSerializableExtra(I.User.TABLE_NAME);
         L.e(TAG,"user="+user);
         if (user!=null){
             showUserInfo();
         }else{
-            MFGT.finish(this);
+            String username = getIntent().getStringExtra(I.User.USER_NAME);
+            if (username==null) {
+                MFGT.finish(this);
+            }else{
+                syncUserInfo(username);
+            }
         }
+    }
+
+    private void syncUserInfo(String username) {
+        NetDao.getUserInfoByUsername(this, username, new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s!=null){
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    if (result!=null){
+                        if (result.isRetMsg()){
+                            User u = (User) result.getRetData();
+                            if (u!=null){
+                                user = u;
+                                showUserInfo();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 
     private void showUserInfo() {
