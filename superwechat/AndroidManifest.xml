@@ -45,7 +45,6 @@
         android:protectionLevel="signatureOrSystem" />
 
     <uses-permission android:name="com.hyphenate.chatuidemo.permission.MIPUSH_RECEIVE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -501,7 +500,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
-        <activity android:name="cn.ucai.superwechat.ui.GuideActivity"></activity>
+        <activity android:name="cn.ucai.superwechat.ui.GuideActivity" />
+        <activity android:name="cn.ucai.superwechat.ui.FirentProfileActivity" />
     </application>
 
 </manifest>
