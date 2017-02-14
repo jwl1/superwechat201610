@@ -1,7 +1,7 @@
 package cn.ucai.superwechat.widget;
 
 
-import      android.content.Context;
+import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,7 +37,7 @@ public class DMTabHost extends LinearLayout implements OnClickListener {
             if (view instanceof DMTabButton || view instanceof DMTabTextView) {
                 view.setSelected(position == i);
                 if (position == i && mListener != null) {
-                 mListener.onCheckedChange(position, byUser);
+                    mListener.onCheckedChange(position, byUser);
                 }
             }
         }
@@ -76,7 +76,7 @@ public class DMTabHost extends LinearLayout implements OnClickListener {
         for (int i = 0; i < count; i++) {
             View view = getChildAt(i);
             if (v == view) {
-              setChecked(i, true);
+                setChecked(i, true);
                 break;
             }
         }

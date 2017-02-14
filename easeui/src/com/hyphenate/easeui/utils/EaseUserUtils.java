@@ -1,7 +1,6 @@
 package com.hyphenate.easeui.utils;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +13,6 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.domain.User;
 
 public class EaseUserUtils {
-    private static final String TAG = EaseUserUtils.class.getSimpleName();
 
     static EaseUserProfileProvider userProvider;
 
@@ -81,14 +79,16 @@ public class EaseUserUtils {
         User user = getAppUserInfo(username);
         if(user != null && user.getAvatar() != null){
             setAppUserAvatarByPath(context,user.getAvatar(),imageView);
+
         }else{
             Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
         }
+
     }
 
-    public static void setAppUserAvatarByPath(Context context,String path,ImageView imageView){
-        Log.e(TAG,"setAppUserAvatarByPath,path="+path);
-        if(path != null){
+    public static void setAppUserAvatarByPath(Context context, String path, ImageView imageView) {
+
+        if(path != null ){
             try {
                 int avatarResId = Integer.parseInt(path);
                 Glide.with(context).load(avatarResId).into(imageView);
@@ -100,6 +100,7 @@ public class EaseUserUtils {
             Glide.with(context).load(R.drawable.default_hd_avatar).into(imageView);
         }
     }
+
 
     /**
      * set user's nickname

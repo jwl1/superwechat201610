@@ -74,7 +74,7 @@ import cn.ucai.superwechat.widget.TitleMenu.ActionItem;
 import cn.ucai.superwechat.widget.TitleMenu.TitlePopup;
 
 @SuppressLint("NewApi")
-public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedChangeListener,ViewPager.OnPageChangeListener {
 
     protected static final String TAG = "MainActivity";
     @BindView(R.id.txt_left)
@@ -85,9 +85,6 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     MFViewPager mLayoutViewpage;
     @BindView(R.id.layout_tabhost)
     DMTabHost mLayoutTabhost;
-    @BindView(R.id.txt_title)
-    TextView txtTitle;
-
     // textview for unread message count
     //private TextView unreadLabel;
     // textview for unread event message
@@ -146,10 +143,10 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         ProfileFragment profileFragment = new ProfileFragment();
 
         adapter = new MainTabAdpter(getSupportFragmentManager());
-        adapter.addFragment(conversationListFragment, "微信");
-        adapter.addFragment(contactListFragment, "通讯录");
-        adapter.addFragment(new DiscoverFragment(), "发现");
-        adapter.addFragment(profileFragment, "我");
+        adapter.addFragment(conversationListFragment,"微信");
+        adapter.addFragment(contactListFragment,"通讯录");
+        adapter.addFragment(new DiscoverFragment(),"发现");
+        adapter.addFragment(profileFragment,"我");
         mLayoutViewpage.setAdapter(adapter);
         mLayoutTabhost.setChecked(0);
         mLayoutTabhost.setOnCheckedChangeListener(this);
@@ -210,35 +207,34 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
      */
     private void initView() {
 //		unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
-//		unreadAddressLable = (TextView) findViewById(R.id.unread_address_number);
 //		mTabs = new Button[3];
 //		mTabs[0] = (Button) findViewById(R.id.btn_conversation);
 //		mTabs[1] = (Button) findViewById(R.id.btn_address_list);
 //		mTabs[2] = (Button) findViewById(R.id.btn_setting);
 //		// select first tab
 //		mTabs[0].setSelected(true);
-        txtTitle.setVisibility(View.VISIBLE);
+        mTxtLeft.setVisibility(View.VISIBLE);
         mImgRight.setVisibility(View.VISIBLE);
         mTitlePopup = new TitlePopup(this, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        mTitlePopup.addAction(new ActionItem(this, R.string.menu_groupchat, R.drawable.icon_menu_group));
-        mTitlePopup.addAction(new ActionItem(this, R.string.menu_addfriend, R.drawable.icon_menu_addfriend));
-        mTitlePopup.addAction(new ActionItem(this, R.string.menu_qrcode, R.drawable.icon_menu_sao));
-        mTitlePopup.addAction(new ActionItem(this, R.string.menu_money, R.drawable.icon_menu_money));
+        mTitlePopup.addAction(new ActionItem(this,R.string.menu_groupchat,R.drawable.icon_menu_group));
+        mTitlePopup.addAction(new ActionItem(this,R.string.menu_addfriend,R.drawable.icon_menu_addfriend));
+        mTitlePopup.addAction(new ActionItem(this,R.string.menu_qrcode,R.drawable.icon_menu_sao));
+        mTitlePopup.addAction(new ActionItem(this,R.string.menu_money,R.drawable.icon_menu_money));
         mTitlePopup.setItemOnClickListener(listener);
     }
 
     TitlePopup.OnItemOnClickListener listener = new TitlePopup.OnItemOnClickListener() {
         @Override
         public void onItemClick(ActionItem item, int position) {
-            L.e(TAG, "item=" + item + ",position=" + position);
-            switch (position) {
+            L.e(TAG,"item="+item+",position="+position);
+            switch (position){
                 case 1:
                     MFGT.gotoAddContact(MainActivity.this);
                     break;
             }
         }
-    };
+    } ;
 
     /**
      * on tab clicked
@@ -391,7 +387,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @Override
     public void onCheckedChange(int checkedPosition, boolean byUser) {
-        mLayoutViewpage.setCurrentItem(checkedPosition, false);
+        mLayoutViewpage.setCurrentItem(checkedPosition,false);
     }
 
     public class MyContactListener implements EMContactListener {
@@ -466,16 +462,19 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
      * update the total unread count
      */
     public void updateUnreadAddressLable() {
-//		runOnUiThread(new Runnable() {
-//			public void run() {
-//				int count = getUnreadAddressCountTotal();
-//				if (count > 0) {
-//					unreadAddressLable.setVisibility(View.VISIBLE);
-//				} else {
-//					unreadAddressLable.setVisibility(View.INVISIBLE);
-//				}
-//			}
-//		});
+        runOnUiThread(new Runnable() {
+            public void run() {
+                int count = getUnreadAddressCountTotal();
+                L.e(TAG,"updateUnreadAddressLable,count="+count);
+                if (count > 1) {
+                    mLayoutTabhost.setUnreadCount(1, count);
+                }else if(count==1){
+                    mLayoutTabhost.setHasNew(1,true);
+                } else {
+                    mLayoutTabhost.setHasNew(1,false);
+                }
+            }
+        });
 
     }
 
