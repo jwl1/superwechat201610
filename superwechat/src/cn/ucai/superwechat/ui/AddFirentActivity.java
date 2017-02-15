@@ -33,7 +33,7 @@ public class AddFirentActivity extends BaseActivity {
     TextView mTxtTitle;
     @BindView(R.id.btn_send)
     Button mBtnSend;
-    @BindView(R.id.tv_msg)
+    @BindView(R.id.et_msg)
     EditText mEtMsg;
 
     String username;
