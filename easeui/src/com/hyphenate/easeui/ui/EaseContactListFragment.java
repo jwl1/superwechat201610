@@ -38,6 +38,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.domain.User;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseContactList;
 import com.hyphenate.exceptions.HyphenateException;
 
@@ -240,12 +241,14 @@ public class EaseContactListFragment extends EaseBaseFragment {
                 if (!entry.getKey().equals("item_new_friends")
                         && !entry.getKey().equals("item_groups")
                         && !entry.getKey().equals("item_chatroom")
-                        && !entry.getKey().equals("item_robots")){
+                        && !entry.getKey().equals("item_robots")
+                        && !entry.getKey().equals(EMClient.getInstance().getCurrentUser())
+                        ){
 //                    if(!blackList.contains(entry.getKey())){
 //                        //filter out users in blacklist
-//                        EaseUser user = entry.getValue();
-//                        EaseCommonUtils.setUserInitialLetter(user);
-//                        contactList.add(user);
+                        User user = entry.getValue();
+                        EaseCommonUtils.setAppUserInitialLetter(user);
+                        contactList.add(user);
 //                    }
                 }
             }
