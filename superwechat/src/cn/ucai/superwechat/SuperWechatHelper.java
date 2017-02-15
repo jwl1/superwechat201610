@@ -686,7 +686,6 @@ public class SuperWechatHelper {
                                     if (!getAppContactList().containsKey(username)) {
                                         getAppContactList().containsKey(username);
                                         userDao.saveAppContact(user);
-                                        broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
 
                                     }
                                 }
@@ -1186,6 +1185,38 @@ public class SuperWechatHelper {
         if(isSyncingContactsWithServer){
             return;
         }
+        NetDao.loadContact(appContext, EMClient.getInstance().getCurrentUser(),
+                new OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if (s!=null){
+                            Result result = ResultUtils.getListResultFromJson(s, User.class);
+                            if (result!=null && result.isRetMsg()){
+                                List<User> list = (List<User>) result.getRetData();
+                                if (list!=null && list.size()>0){
+                                    Map<String, User> userMap = new HashMap<String, User>();
+                                    for (User u : list) {
+                                        EaseCommonUtils.setAppUserInitialLetter(u);
+                                        userMap.put(username, u);
+                                    }
+                                    // save the contact list to cache
+                                    getAppContactList().clear();
+                                    getAppContactList().putAll(userMap);
+                                    // save the contact list to database
+                                    UserDao dao = new UserDao(appContext);
+                                    dao.saveAppContactList(list);
+                                    broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+
 
         isSyncingContactsWithServer = true;
 
