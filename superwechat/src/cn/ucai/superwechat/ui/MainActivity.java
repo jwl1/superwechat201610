@@ -60,6 +60,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.Constant;
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.adapter.MainTabAdpter;
 import cn.ucai.superwechat.db.InviteMessgeDao;
@@ -522,7 +523,9 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         sdkHelper.pushActivity(this);
 
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
-    }
+
+        }
+
 
     @Override
     protected void onStop() {
@@ -618,8 +621,12 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         showExceptionDialogFromIntent(intent);
-    }
 
+        int isChat = intent.getIntExtra(I.BACK_MAIN_FROM_CHAT, 0);
+        if (isChat>0) {
+            mLayoutTabhost.setChecked(0);
+        }
+    }
     /**
      * debug purpose only, you can ignore this
      */
