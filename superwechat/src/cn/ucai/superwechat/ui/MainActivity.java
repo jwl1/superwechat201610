@@ -343,7 +343,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
                     if (conversationListFragment != null) {
                         conversationListFragment.refresh();
                     }
-                } else if (currentTabIndex == 1) {
+
                     if (contactListFragment != null) {
                         contactListFragment.refresh();
                     }

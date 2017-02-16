@@ -686,6 +686,7 @@ public class SuperWechatHelper {
                                     if (!getAppContactList().containsKey(username)) {
                                         getAppContactList().containsKey(username);
                                         userDao.saveAppContact(user);
+                                        broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
 
                                     }
                                 }

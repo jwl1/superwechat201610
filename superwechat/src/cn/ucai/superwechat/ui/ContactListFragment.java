@@ -37,6 +37,7 @@ import com.hyphenate.util.NetUtils;
 import java.util.Hashtable;
 import java.util.Map;
 
+import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.SuperWechatHelper.DataSyncListener;
 import cn.ucai.superwechat.db.InviteMessgeDao;
@@ -266,6 +267,7 @@ public class ContactListFragment extends EaseContactListFragment {
                             pd.dismiss();
                             contactList.remove(tobeDeleteUser);
                             contactListLayout.refresh();
+                            getActivity().sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
 
                         }
                     });
