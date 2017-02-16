@@ -1205,6 +1205,7 @@ public class SuperWechatHelper {
                                     // save the contact list to database
                                     UserDao dao = new UserDao(appContext);
                                     dao.saveAppContactList(list);
+
                                     broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
                                 }
                             }

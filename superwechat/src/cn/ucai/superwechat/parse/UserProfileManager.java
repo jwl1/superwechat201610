@@ -174,9 +174,9 @@ public class UserProfileManager {
 						if (user != null) {
 
 
-				//		SuperWechatHelper.getInstance().saveAppContact(user);
+						SuperWechatHelper.getInstance().saveAppContact(user);
 						setCurrentUserNick(user.getMUserNick());
-				//		setCurrentUserAvatar(user.getAvatar());
+						setCurrentUserAvatar(user.getAvatar());
 						}
 					}
 				}
