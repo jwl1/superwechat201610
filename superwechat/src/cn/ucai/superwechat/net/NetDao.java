@@ -78,15 +78,15 @@ public class NetDao {
     }
 
     public static void addContact(Context context, String username, String cname,
-                                  OnCompleteListener<String> listener) {
+                                  OnCompleteListener<String> listener){
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_ADD_CONTACT)
                 .addParam(I.Contact.USER_NAME,username)
                 .addParam(I.Contact.CU_NAME,cname)
                 .targetClass(String.class)
                 .execute(listener);
-
     }
+
     public static void loadContact(Context context, String username, OnCompleteListener<String> listener){
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
@@ -99,27 +99,24 @@ public class NetDao {
                                      OnCompleteListener<String> listener) {
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_DELETE_CONTACT)
-                .addParam(I.Contact.USER_NAME,username)
-                .addParam(I.Contact.CU_NAME,cname)
+                .addParam(I.Contact.USER_NAME, username)
+                .addParam(I.Contact.CU_NAME, cname)
                 .targetClass(String.class)
                 .execute(listener);
-
     }
 
-    public static void createGroup(Context context, EMGroup group, File file, OnCompleteListener<String> listener) {
+    public static void createGroup(Context context, EMGroup group, File file, OnCompleteListener<String> listener){
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_CREATE_GROUP)
                 .addParam(I.Group.HX_ID,group.getGroupId())
-                .addParam(I.Group.NAME, group.getGroupName())
-                .addParam(I.Group.DESCRIPTION, group.getDescription())
-                .addParam(I.Group.OWNER, group.getOwner())
-                .addParam(I.Group.IS_PUBLIC, String.valueOf(group.isPublic()))
-                .addParam(I.Group.ALLOW_INVITES, String.valueOf(group.isAllowInvites()))
+                .addParam(I.Group.NAME,group.getGroupName())
+                .addParam(I.Group.DESCRIPTION,group.getDescription())
+                .addParam(I.Group.OWNER,group.getOwner())
+                .addParam(I.Group.IS_PUBLIC,String.valueOf(group.isPublic()))
+                .addParam(I.Group.ALLOW_INVITES,String.valueOf(group.isAllowInvites()))
+                .addFile2(file)
                 .targetClass(String.class)
-              //  .addFile2(file)
                 .post()
                 .execute(listener);
     }
-
-
 }
