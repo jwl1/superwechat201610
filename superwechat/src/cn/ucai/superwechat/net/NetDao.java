@@ -149,4 +149,13 @@ public static  void updateGroupName(Context context, String hxid, String groupNa
             .execute(listener);
 
 }
+    public static  void deleteGroup(Context context, String hxid,
+                                        OnCompleteListener<String> listener) {
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_GROUP_BY_HXID)
+                .addParam(I.Group.HX_ID, hxid)
+                .targetClass(String.class)
+                .execute(listener);
+
+    }
 }
