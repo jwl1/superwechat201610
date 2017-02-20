@@ -55,6 +55,7 @@ import java.util.List;
 
 import cn.ucai.superwechat.net.NetDao;
 import cn.ucai.superwechat.net.OnCompleteListener;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MFGT;
 
 import static com.baidu.mapapi.BMapManager.getContext;
@@ -396,6 +397,16 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			}
 		}).start();
 	}
+    private String getGroupMemebers(String[] members) {
+        String membersStr = "";
+        if (members.length>0){
+            for (String s:members){
+                membersStr += s+",";
+            }
+        }
+        L.e(TAG,"getGroupMemebers,s="+membersStr);
+        return membersStr;
+    }
 
 	/**
 	 * 增加群成员
@@ -423,6 +434,18 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							progressDialog.dismiss();
 						}
 					});
+					NetDao.addGroupMembers(getContext(), newmembers.toString(), groupId,
+                            new OnCompleteListener<String>() {
+                                @Override
+                                public void onSuccess(String result) {
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+
+                                }
+                            });
 				} catch (final Exception e) {
 					runOnUiThread(new Runnable() {
 						public void run() {
